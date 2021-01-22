@@ -38,8 +38,10 @@ while score_comp < 2001 and score_user < 2001:
 
     print(f'You throw {turn_user} points. Your score is {score_user}')
 
-    turn_comp += throw()
-    turn_comp += throw()
+    comp_dice1 = random.randint(0, len(available_dices) - 1)
+    comp_dice2 = random.randint(0, len(available_dices) - 1)
+    turn_comp += throw(available_dices[comp_dice1])
+    turn_comp += throw(available_dices[comp_dice2])
     if (turn_comp == 7):
         score_comp = score_comp // 7
     elif (turn_comp == 11):
@@ -47,7 +49,7 @@ while score_comp < 2001 and score_user < 2001:
     else:
         score_comp += turn_comp
 
-    print(f'Your opponent throw {turn_comp} points. Yours opponent score is {score_comp}\n')
+    print(f'Your opponent throw with D{available_dices[comp_dice1]} and D{available_dices[comp_dice2]} {turn_comp} points. Yours opponent score is {score_comp}\n')
 
 if score_user > 2001 and score_comp > 2001:
     print('It\'s a tie')
