@@ -1,8 +1,10 @@
 from flask import Flask, request
 import random
 
+
 def throw(cube_walls=6):
     return random.randint(1, cube_walls)
+
 
 available_dices = (3, 4, 6, 8, 10, 12, 20, 100)
 
@@ -45,8 +47,8 @@ def game_room():
     else:
         user_first_shot = throw(int(request.form["size_1"]))
         user_second_shot = throw(int(request.form["size_2"]))
-        comp_first_shot = throw(available_dices[random.randint(0,len(available_dices)-1)])
-        comp_second_shot = throw(available_dices[random.randint(0,len(available_dices)-1)])
+        comp_first_shot = throw(available_dices[random.randint(0, len(available_dices) - 1)])
+        comp_second_shot = throw(available_dices[random.randint(0, len(available_dices) - 1)])
         user_round = user_first_shot + user_second_shot
         comp_round = comp_first_shot + comp_second_shot
         if (user_round == 7):
@@ -62,7 +64,12 @@ def game_room():
             score_comp = 11 * int(request.form["score_comp"])
         else:
             score_comp = int(request.form["score_comp"]) + comp_round
-
+        if score_user >= 2001 and score_comp >= 2001:
+            return f"You have {score_user} points. Your opponent has {score_comp} points. IT'S A TIE"
+        elif score_user >= 2001:
+            return "YOU WON"
+        elif score_comp >= 2001:
+            return "YOU LOSE"
         html = f"""
         <p>Your dices went {user_first_shot} and {user_second_shot}. Your score is {score_user}</p>
         <p>Yours opponent dices went {comp_first_shot} and {comp_second_shot}. Yours opponent score is {score_comp}</p>
@@ -93,6 +100,7 @@ def game_room():
         </form>
         """
         return html
+
 
 if __name__ == '__main__':
     app.run()
