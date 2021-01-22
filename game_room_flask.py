@@ -49,12 +49,23 @@ def game_room():
         comp_second_shot = throw(available_dices[random.randint(0,len(available_dices)-1)])
         user_round = user_first_shot + user_second_shot
         comp_round = comp_first_shot + comp_second_shot
+        if (user_round == 7):
+            score_user = int(request.form["score_user"]) // 7
+        elif (user_round == 11):
+            score_user = 11 * int(request.form["score_user"])
+        else:
+            score_user = int(request.form["score_user"]) + user_round
 
-        score_user = int(request.form["score_user"]) + user_round
-        score_comp = int(request.form["score_comp"]) + comp_round
+        if (comp_round == 7):
+            score_comp = int(request.form["score_comp"]) // 7
+        elif (comp_round == 11):
+            score_comp = 11 * int(request.form["score_comp"])
+        else:
+            score_comp = int(request.form["score_comp"]) + comp_round
+
         html = f"""
-        <p>Your dices went {user_first_shot} and {user_second_shot}. Your score is{score_user}</p>
-        <p>Yours opponent dices went {comp_first_shot} and {comp_second_shot}. Yours opponent score is{score_comp}</p>
+        <p>Your dices went {user_first_shot} and {user_second_shot}. Your score is {score_user}</p>
+        <p>Yours opponent dices went {comp_first_shot} and {comp_second_shot}. Yours opponent score is {score_comp}</p>
         <form method='POST'>
             <input type="hidden" value={score_user} name="score_user">
             <input type="hidden" value={score_comp} name="score_comp">
